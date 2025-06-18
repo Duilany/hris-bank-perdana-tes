@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\EmployeeDetail;
 use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
@@ -11,14 +10,14 @@ class DashboardController extends Controller
     public function hc()
 {
     // Statistik jenis kelamin (Laki-laki/Perempuan)
-    $genderStats = EmployeeDetail::select('jenis_kelamin', DB::raw('count(*) as total'))
-        ->groupBy('jenis_kelamin')
-        ->pluck('total', 'jenis_kelamin');
+    $genderStats = Employee::select('gender', DB::raw('count(*) as total'))
+        ->groupBy('gender')
+        ->pluck('total', 'gender');
 
     // Statistik divisi (Bisnis/Support/Direksi/dll)
-    $divisionStats = Employee::select('divisi', DB::raw('count(*) as total'))
-        ->groupBy('divisi')
-        ->pluck('total', 'divisi');
+    $divisionStats = Employee::select('division_id', DB::raw('count(*) as total'))
+        ->groupBy('division_id')
+        ->pluck('total', 'division_id');
 
     return view('dashboard.hc', compact('genderStats', 'divisionStats'));
 }
