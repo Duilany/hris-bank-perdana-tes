@@ -15,11 +15,19 @@ class Pengumuman extends Model
     protected $fillable = [
         'judul',
         'isi',
-        'user_id', // atau 'dibuat_oleh' sesuai kolommu
+        'user_id',
+        'tipe',
+        'attachment', // untuk menyimpan file PDF/gambar
+        'label', // untuk menyimpan label pengumuman
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function polling()
+{
+    return $this->hasOne(Polling::class);
+}
 }

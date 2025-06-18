@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\PollingController;
 use App\Http\Controllers\HC\UserManagementController;
 use App\Http\Middleware\RoleMiddleware;
 
@@ -22,7 +23,9 @@ Route::middleware('auth')->group(function () {
 
     // === Pengumuman ===
     Route::resource('pengumuman', PengumumanController::class);
-
+    Route::post('/polling/{polling}/vote', [PollingController::class, 'vote'])->name('polling.vote');
+    Route::get('/polling/{polling}/export', [PollingController::class, 'export'])->name('polling.export');
+    
     // =======================
     // === HC Area (Admin HR)
     // =======================

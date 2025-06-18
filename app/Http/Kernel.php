@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Console\Commands\GeneratePollingResult;
 
 class Kernel extends HttpKernel
 {
@@ -60,4 +61,14 @@ class Kernel extends HttpKernel
         // Tambahkan middleware kustom kamu di sini
         'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
+
+    protected $commands = [
+        GeneratePollingResult::class,
+    ];
+    
+    protected function schedule(Schedule $schedule)
+{
+    // Jalankan setiap menit
+    $schedule->command(GeneratePollingResult::class)->everyMinute();
+}
 }

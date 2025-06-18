@@ -14,6 +14,8 @@
             <tr>
                 <th>Judul</th>
                 <th>Tipe</th>
+                <th>label</th>
+                <th>Lampiran</th> <!-- Tambahkan kolom baru -->
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -22,6 +24,31 @@
             <tr>
                 <td>{{ $item->judul }}</td>
                 <td>{{ ucfirst($item->tipe) }}</td>
+                <td>
+  @if($item->label)
+    <span class="badge bg-info text-white">{{ $item->label }}</span>
+  @else
+    <span class="text-muted">Umum</span>
+  @endif
+</td>
+
+                <td>
+                    @if ($item->attachment)
+                        @php
+                            $ext = pathinfo($item->attachment, PATHINFO_EXTENSION);
+                        @endphp
+
+                        @if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png', 'gif']))
+                            <img src="{{ asset('storage/pengumuman/' . $item->attachment) }}" alt="gambar" width="60">
+                        @elseif (strtolower($ext) === 'pdf')
+                            <a href="{{ asset('storage/pengumuman/' . $item->attachment) }}" target="_blank">Lihat PDF</a>
+                        @else
+                            <a href="{{ asset('storage/pengumuman/' . $item->attachment) }}" target="_blank">Unduh File</a>
+                        @endif
+                    @else
+                        <span class="text-muted">-</span>
+                    @endif
+                </td>
                 <td>
                     <a href="{{ route('pengumuman.show', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
                     <a href="{{ route('pengumuman.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
